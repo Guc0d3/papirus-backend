@@ -184,32 +184,32 @@ const createTable = async () => {
 
 const dropTable = async () => {
   console.log('drop table')
-  const result = await db.transaction(async trx => {
-    await trx.schema.dropTableIfExists('accountings')
-    console.log('[ ] drop table accountings')
-    await trx.schema.dropTableIfExists('companies')
-    console.log('[ ] drop table companies')
-    await trx.schema.dropTableIfExists('contacts')
-    console.log('[ ] drop table contacts')
-    await trx.schema.dropTableIfExists('inventories')
-    console.log('[ ] drop table inventories')
-    await trx.schema.dropTableIfExists('line_messages')
-    console.log('[ ] drop table line_messages')
-    await trx.schema.dropTableIfExists('line_users')
-    console.log('[ ] drop table line_users')
-    await trx.schema.dropTableIfExists('transactions')
-    console.log('[ ] drop table transactions')
-    return true
-  })
-  // const results = await Promise.all([
-  //   db.schema.dropTableIfExists('accountings'),
-  //   db.schema.dropTableIfExists('companies'),
-  //   db.schema.dropTableIfExists('contacts'),
-  //   db.schema.dropTableIfExists('inventories'),
-  //   db.schema.dropTableIfExists('line_messages'),
-  //   db.schema.dropTableIfExists('line_users'),
-  //   db.schema.dropTableIfExists('transactions')
-  // ])
+  // const result = await db.transaction(async trx => {
+  //   await trx.schema.dropTableIfExists('accountings')
+  //   console.log('[ ] drop table accountings')
+  //   await trx.schema.dropTableIfExists('companies')
+  //   console.log('[ ] drop table companies')
+  //   await trx.schema.dropTableIfExists('contacts')
+  //   console.log('[ ] drop table contacts')
+  //   await trx.schema.dropTableIfExists('inventories')
+  //   console.log('[ ] drop table inventories')
+  //   await trx.schema.dropTableIfExists('line_messages')
+  //   console.log('[ ] drop table line_messages')
+  //   await trx.schema.dropTableIfExists('line_users')
+  //   console.log('[ ] drop table line_users')
+  //   await trx.schema.dropTableIfExists('transactions')
+  //   console.log('[ ] drop table transactions')
+  //   return true
+  // })
+  const results = await Promise.all([
+    db.schema.dropTableIfExists('accountings'),
+    db.schema.dropTableIfExists('companies'),
+    db.schema.dropTableIfExists('contacts'),
+    db.schema.dropTableIfExists('inventories'),
+    db.schema.dropTableIfExists('line_messages'),
+    db.schema.dropTableIfExists('line_users'),
+    db.schema.dropTableIfExists('transactions')
+  ])
   return result
 }
 
