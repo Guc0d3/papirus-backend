@@ -19,4 +19,5 @@ const port = process.env.API_PORT || 3000
 
 app.listen(port, () => {
   console.log('Papirus APIs is running on port ' + port)
+  console.log('')
 })
