@@ -15,10 +15,8 @@ app.use(BodyParser.json())
 app.use(BodyParser.urlencoded({ extended: true }))
 app.use('/', routes)
 
-const port = process.env.PORT || 3000
+const port = process.env.API_PORT || 3000
 
 app.listen(port, () => {
-  console.log(
-    'Express is running on ' + process.env.HOST + ':' + process.env.PORT
-  )
+  console.log('Papirus APIs is running on port ' + port)
 })

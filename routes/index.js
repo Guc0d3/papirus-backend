@@ -23,7 +23,7 @@ router.use('/line-webhook', lineWebhook)
 router.use('/upload', upload)
 router
   .get('/version', (req, res) => {
-    res.status(200).send('1.0')
+    res.status(200).send(process.env.API_VERSION || 1)
   })
   .get('*', (req, res) => {
     res.status(404).send()
