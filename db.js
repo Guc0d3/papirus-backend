@@ -48,10 +48,10 @@ KnexQueryBuilder.prototype.selectSearch = function(columns, search) {
 const db = require('knex')({
   client: 'pg',
   connection: {
-    host: process.env.DATABASE_HOST,
-    user: process.env.DATABASE_USER,
-    password: process.env.DATABASE_PASS,
-    database: process.env.DATABASE_NAME
+    host: process.env.POSTGRESQL_HOST,
+    user: process.env.POSTGRESQL_USERNAME,
+    password: process.env.POSTGRESQL_PASSWORD,
+    database: process.env.POSTGRESQL_DBNAME
   },
   pool: { min: 2, max: 20 },
   acquireConnectionTimeout: 300000
