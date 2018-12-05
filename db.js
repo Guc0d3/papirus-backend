@@ -49,9 +49,9 @@ const db = require('knex')({
   client: 'pg',
   connection: {
     host: process.env.POSTGRESQL_HOST,
-    user: process.env.POSTGRESQL_USERNAME,
+    user: process.env.POSTGRESQL_USER,
     password: process.env.POSTGRESQL_PASSWORD,
-    database: process.env.POSTGRESQL_DBNAME
+    database: process.env.POSTGRESQL_DATABASE
   },
   pool: { min: 2, max: 20 },
   acquireConnectionTimeout: 300000
