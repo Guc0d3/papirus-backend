@@ -8,6 +8,10 @@ const router = Express.Router()
 router
   .get('/', async (req, res) => {
     try {
+      const data = await db('pg_catalog.pg_tables')
+        .select('tablename')
+        .where('schemaname', 'public')
+      console.log('tables: ', data)
       await install(req.query.line_admin_uid)
       res.sendStatus(200)
     } catch (err) {
@@ -185,20 +189,20 @@ const createTable = async () => {
 const dropTable = async () => {
   console.log('drop table')
   const result = await db.transaction(async trx => {
-    // await trx.schema.dropTableIfExists('accountings')
-    // console.log('[ ] drop table accountings')
+    await trx.schema.dropTableIfExists('accountings')
+    console.log('[ ] drop table accountings')
     await trx.schema.dropTableIfExists('companies')
     console.log('[ ] drop table companies')
-    // await trx.schema.dropTableIfExists('contacts')
-    // console.log('[ ] drop table contacts')
-    // await trx.schema.dropTableIfExists('inventories')
-    // console.log('[ ] drop table inventories')
-    // await trx.schema.dropTableIfExists('line_messages')
-    // console.log('[ ] drop table line_messages')
-    // await trx.schema.dropTableIfExists('line_users')
-    // console.log('[ ] drop table line_users')
-    // await trx.schema.dropTableIfExists('transactions')
-    // console.log('[ ] drop table transactions')
+    await trx.schema.dropTableIfExists('contacts')
+    console.log('[ ] drop table contacts')
+    await trx.schema.dropTableIfExists('inventories')
+    console.log('[ ] drop table inventories')
+    await trx.schema.dropTableIfExists('line_messages')
+    console.log('[ ] drop table line_messages')
+    await trx.schema.dropTableIfExists('line_users')
+    console.log('[ ] drop table line_users')
+    await trx.schema.dropTableIfExists('transactions')
+    console.log('[ ] drop table transactions')
     return true
   })
   // const results = await Promise.all([
