@@ -141,7 +141,7 @@ const insertData = async () => {
       expiredAt.setFullYear(expiredAt.getFullYear() + 100)
 
       let profile = await lineClient.getUserProfile(
-        process.env.LINE_ADMIN_UID_0
+        process.env.LINE_ADMIN_UID_1
       )
       results.push(
         await trx('line_users').insert({
@@ -154,7 +154,7 @@ const insertData = async () => {
           expired_at: expiredAt.toISOString().substr(0, 10)
         })
       )
-      profile = await lineClient.getUserProfile(process.env.LINE_ADMIN_UID_1)
+      profile = await lineClient.getUserProfile(process.env.LINE_ADMIN_UID_2)
       results.push(
         await trx('line_users').insert({
           code: profile.userId,
@@ -176,7 +176,7 @@ const insertData = async () => {
 }
 
 const install = async lineAdminUId => {
-  if (lineAdminUId !== process.env.LINE_ADMIN_UID_0) {
+  if (lineAdminUId !== process.env.LINE_ADMIN_UID_1) {
     throw new Error('Permission: Deny (Administration Only)')
   }
   const results = await dropTable()
