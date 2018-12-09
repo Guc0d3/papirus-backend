@@ -1,23 +1,23 @@
-const Aws = require('aws-sdk')
+const AWS = require('aws-sdk')
 const Express = require('express')
 const Multer = require('multer')
 const MulterS3 = require('multer-s3')
 
-Aws.config.update({
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID
+AWS.config.update({
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
 })
-const s3 = new Aws.S3()
+const s3 = new AWS.S3()
 
 const upload = Multer({
   storage: MulterS3({
     acl: 'public-read',
     bucket: process.env.AWS_S3_BUCKET_NAME,
     contentType: MulterS3.AUTO_CONTENT_TYPE,
+    s3,
     key: (req, file, cb) => {
       cb(null, 'files/' + Date.now().toString() + '-' + file.originalname)
-    },
-    s3
+    }
   })
 })
 
