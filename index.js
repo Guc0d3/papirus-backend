@@ -18,11 +18,5 @@ app.use('/', routes)
 const port = process.env.API_PORT || 3000
 
 const listener = app.listen(port, () => {
-  console.log(
-    'Papirus APIs is running on ' +
-      listener.address().address +
-      ':' +
-      listener.address().port
-  )
-  console.log('')
+  console.log('Papirus APIs is running on port ' + listener.address().port)
 })
