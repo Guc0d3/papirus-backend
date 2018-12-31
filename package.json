@@ -28,7 +28,7 @@
     "url": "git+https://github.com/Guc0d3/papirus-backend.git"
   },
   "scripts": {
-    "start": "node index.js",
+    "serve": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   }
 }
