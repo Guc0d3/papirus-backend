@@ -125,16 +125,24 @@ router
   })
   .post('/', (req, res) => {
     db.transaction(async trx => {
+      let payload = {
+        code: req.body.code,
+        name: req.body.name,
+        address: req.body.address,
+        phone: req.body.phone,
+        tax_code: req.body.tax_code,
+        avatar: req.body.avatar,
+        is_active: false
+      }
+      if ('prototype_id' in req.body) {
+        if (req.body.prototype_id < 0 && req.body.locale === 'th') {
+          payload.prototype_id = -2
+        } else {
+          payload.prototype_id = req.body.prototype_id
+        }
+      }
       const cpRows = await trx('companies')
-        .insert({
-          code: req.body.code,
-          name: req.body.name,
-          address: req.body.address,
-          phone: req.body.phone,
-          tax_code: req.body.tax_code,
-          avatar: req.body.avatar,
-          is_active: false
-        })
+        .insert(payload)
         .returning('*')
       const newCompany = Lodash.mapKeys(cpRows[0], (value, key) =>
         Lodash.camelCase(key)
