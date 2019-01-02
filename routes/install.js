@@ -2,7 +2,7 @@ const Express = require('express')
 const Lodash = require('lodash')
 const db = require('../db')
 const lineClient = require('../line-client')
-const { accountings, companies, contacts } = require('../install-items')
+const { accountings } = require('../install-items')
 
 const router = Express.Router()
 router
@@ -126,16 +126,6 @@ const insertData = async () => {
         return Lodash.mapKeys(item, (value, key) => Lodash.snakeCase(key))
       })
       results.push(await trx('accountings').insert(rows))
-
-      rows = companies.map(item => {
-        return Lodash.mapKeys(item, (value, key) => Lodash.snakeCase(key))
-      })
-      results.push(await trx('companies').insert(rows))
-
-      rows = contacts.map(item => {
-        return Lodash.mapKeys(item, (value, key) => Lodash.snakeCase(key))
-      })
-      results.push(await trx('contacts').insert(rows))
 
       let expiredAt = new Date()
       expiredAt.setFullYear(expiredAt.getFullYear() + 100)
