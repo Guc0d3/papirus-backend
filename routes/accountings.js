@@ -1,7 +1,7 @@
-const Express = require('express')
+const express = require('express')
 const db = require('../db')
 
-const router = Express.Router()
+const router = express.Router()
 
 router
   .delete('/:id', (req, res) => {
@@ -35,7 +35,7 @@ router
     db.transaction(async trx => {
       const rows = await trx('accountings')
         .insert({
-          company_id: parseInt(req.body.company_id),
+          company_id: parseInt(req.body['company-id']),
           code: req.body.code,
           name: req.body.name,
           is_safe: false

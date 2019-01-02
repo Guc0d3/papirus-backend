@@ -1,15 +1,15 @@
-const Express = require('express')
-const Lodash = require('lodash')
+const express = require('express')
+const lodash = require('lodash')
 const db = require('../db')
-const lineClient = require('../line-client')
-const { accountings } = require('../install-items')
+const lineClient = require('../lineClient')
+const { accountings } = require('../installData')
 
-const router = Express.Router()
+const router = express.Router()
 router
   .get('/', async (req, res) => {
     try {
       process.stdout.write('install: ')
-      await install(req.query.line_admin_uid)
+      await install(req.query['line-admin-uid'])
       res.sendStatus(200)
       console.log('success')
     } catch (err) {
@@ -20,7 +20,7 @@ router
   })
   .post('/', async (req, res) => {
     try {
-      await install(req.body.line_admin_uid)
+      await install(req.body['line-admin-uid'])
       res.sendStatus(200)
     } catch (err) {
       res.sendStatus(500)
@@ -123,7 +123,7 @@ const insertData = async () => {
       let rows = null
 
       rows = accountings.map(item => {
-        return Lodash.mapKeys(item, (value, key) => Lodash.snakeCase(key))
+        return lodash.mapKeys(item, (value, key) => lodash.snakeCase(key))
       })
       results.push(await trx('accountings').insert(rows))
 

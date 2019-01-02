@@ -1,8 +1,8 @@
-const Express = require('express')
-const Lodash = require('lodash')
+const express = require('express')
+const lodash = require('lodash')
 const db = require('../db')
 
-const router = Express.Router()
+const router = express.Router()
 router
   .get('/', async (req, res) => {
     try {
@@ -30,15 +30,15 @@ router
       const rows = await trx('line_users')
         .update({
           name: req.body.name,
-          group_code: req.body.group_code,
-          expired_at: req.body.expired_at,
+          group_code: req.body['group-code'],
+          expired_at: req.body['expired-at'],
           updated_at: db.fn.now()
         })
         .where('id', parseInt(req.params.id))
         .returning('*')
       res
         .status(200)
-        .json(Lodash.mapKeys(rows[0], (value, key) => Lodash.camelCase(key)))
+        .json(lodash.mapKeys(rows[0], (value, key) => lodash.camelCase(key)))
     }).catch(err => {
       console.dir(err)
       res.sendStatus(500)

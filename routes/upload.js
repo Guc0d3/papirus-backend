@@ -1,5 +1,5 @@
 const AWS = require('aws-sdk')
-const Express = require('express')
+const express = require('express')
 const Multer = require('multer')
 const MulterS3 = require('multer-s3')
 
@@ -21,7 +21,7 @@ const upload = Multer({
   })
 })
 
-const router = Express.Router()
+const router = express.Router()
 router.post('/', upload.single('file'), function(req, res) {
   try {
     if (!req.file) {

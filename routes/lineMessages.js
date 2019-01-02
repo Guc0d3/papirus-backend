@@ -1,9 +1,8 @@
-const Express = require('express')
-const Lodash = require('lodash')
+const express = require('express')
 const db = require('../db')
-const lineClient = require('../line-client')
+const lineClient = require('../lineClient')
 
-const router = Express.Router()
+const router = express.Router()
 router
   .get('/', async (req, res) => {
     try {

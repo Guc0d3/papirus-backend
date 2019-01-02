@@ -1,11 +1,11 @@
 const Aws = require('aws-sdk')
-const Express = require('express')
+const express = require('express')
 const Fs = require('fs')
 const Path = require('path')
 const db = require('../db')
-const lineClient = require('../line-client')
+const lineClient = require('../lineClient')
 
-const router = Express.Router()
+const router = express.Router()
 router.post('/', async (req, res) => {
   try {
     const text = req.body.events[0].message.text

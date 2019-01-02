@@ -1,8 +1,8 @@
-const Express = require('express')
-const Lodash = require('lodash')
+const express = require('express')
+const lodash = require('lodash')
 const db = require('../db')
 
-const router = Express.Router()
+const router = express.Router()
 
 router
   .delete('/:id', (req, res) => {
@@ -28,7 +28,7 @@ router
         .returning('*')
       res
         .status(200)
-        .json(Lodash.mapKeys(rows[0], (value, key) => Lodash.camelCase(key)))
+        .json(lodash.mapKeys(rows[0], (value, key) => lodash.camelCase(key)))
     }).catch(err => {
       console.dir(err)
       res.sendStatus(500)
@@ -38,18 +38,18 @@ router
     db.transaction(async trx => {
       const rows = await trx('inventories')
         .insert({
-          company_id: parseInt(req.body.company_id),
+          company_id: parseInt(req.body['company-id']),
           code: req.body.code,
           name: req.body.name,
           weight: req.body.weight || 0,
           cost: req.body.cost || 0
         })
         .returning('*')
-      const inventory = Lodash.mapKeys(rows[0], (value, key) =>
-        Lodash.camelCase(key)
+      const inventory = lodash.mapKeys(rows[0], (value, key) =>
+        lodash.camelCase(key)
       )
       await trx('transactions').insert({
-        company_id: parseInt(req.body.company_id),
+        company_id: parseInt(req.body['company-id']),
         inventory_id: inventory.id,
         weight: inventory.weight,
         cost: inventory.cost

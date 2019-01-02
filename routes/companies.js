@@ -1,17 +1,17 @@
-const Express = require('express')
-const Lodash = require('lodash')
+const express = require('express')
+const lodash = require('lodash')
 const db = require('../db')
 
-const router = Express.Router()
+const router = express.Router()
 
 router
   .delete('/:id', (req, res) => {
     db.transaction(async trx => {
-      const deletedRows = await trx('companies')
+      const affectedRows = await trx('companies')
         .del()
         .where('id', parseInt(req.params.id))
         .returning('*')
-      if (deletedRows[0].is_active) {
+      if (affectedRows[0].is_active) {
         const maxRows = await trx('companies').max('id as i')
         await trx('companies')
           .update({
@@ -91,7 +91,7 @@ router
   })
   .patch('/:id', (req, res) => {
     db.transaction(async trx => {
-      if (req.body.is_active) {
+      if (req.body['is-active']) {
         await trx('companies')
           .update({
             is_active: false,
@@ -101,18 +101,18 @@ router
       }
       const rows = await trx('companies')
         .update(
-          Lodash.omitBy(
+          lodash.omitBy(
             {
               code: req.body.code,
               name: req.body.name,
               address: req.body.address,
               phone: req.body.phone,
-              tax_code: req.body.tax_code,
+              tax_code: req.body['tax-code'],
               avatar: req.body.avatar,
-              is_active: req.body.is_active,
+              is_active: req.body['is-active'],
               updated_at: db.fn.now()
             },
-            Lodash.isUndefined
+            lodash.isUndefined
           )
         )
         .where('id', parseInt(req.params.id))
@@ -125,23 +125,22 @@ router
   })
   .post('/', (req, res) => {
     db.transaction(async trx => {
-      let payload = {
-        code: req.body.code,
-        name: req.body.name,
-        address: req.body.address,
-        phone: req.body.phone,
-        tax_code: req.body.tax_code,
-        avatar: req.body.avatar,
-        is_active: false
-      }
       const cpRows = await trx('companies')
-        .insert(payload)
+        .insert({
+          code: req.body.code,
+          name: req.body.name,
+          address: req.body.address,
+          phone: req.body.phone,
+          tax_code: req.body['tax-code'],
+          avatar: req.body.avatar,
+          is_active: false
+        })
         .returning('*')
-      const newCompany = Lodash.mapKeys(cpRows[0], (value, key) =>
-        Lodash.camelCase(key)
+      const newCompany = lodash.mapKeys(cpRows[0], (value, key) =>
+        lodash.camelCase(key)
       )
-      let prototypeId = parseInt(req.body.prototype_id)
-      if (req.body.prototype_id < 0 && req.body.locale === 'th') {
+      let prototypeId = parseInt(req.body['prototype-id'])
+      if (prototypeId < 0 && req.body.locale === 'th') {
         prototypeId = -2
       }
       const acRows = await trx('accountings').where(
@@ -160,7 +159,7 @@ router
       )
       const ctRows = await trx('contacts').where(
         'company_id',
-        parseInt(req.body.prototype_id)
+        parseInt(req.body['prototype-id'])
       )
       if (ctRows.length > 0) {
         await trx('contacts').insert(
