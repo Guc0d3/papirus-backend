@@ -35,7 +35,7 @@ router
     db.transaction(async trx => {
       const rows = await trx('accountings')
         .insert({
-          company_id: parseInt(req.body['company-id']),
+          company_id: parseInt(req.body['company_id']),
           code: req.body.code,
           name: req.body.name,
           is_safe: false

@@ -24,7 +24,7 @@ router
           name: req.body.name,
           address: req.body.address,
           phone: req.body.phone,
-          tax_code: req.body['tax-code'],
+          tax_code: req.body['tax_code'],
           prefix: req.body.prefix,
           avatar: req.body.avatar,
           updated_at: db.fn.now()
@@ -43,12 +43,12 @@ router
     db.transaction(async trx => {
       const rows = await trx('contacts')
         .insert({
-          company_id: parseInt(req.body['company-id']),
+          company_id: parseInt(req.body['company_id']),
           code: req.body.code,
           name: req.body.name,
           address: req.body.address,
           phone: req.body.phone,
-          tax_code: parseInt(req.body['tax-code']),
+          tax_code: parseInt(req.body['tax_code']),
           prefix: req.body.prefix,
           avatar: req.body.avatar
         })

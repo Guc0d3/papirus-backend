@@ -38,7 +38,7 @@ router
     db.transaction(async trx => {
       const rows = await trx('inventories')
         .insert({
-          company_id: parseInt(req.body['company-id']),
+          company_id: parseInt(req.body['company_id']),
           code: req.body.code,
           name: req.body.name,
           weight: req.body.weight || 0,
@@ -49,7 +49,7 @@ router
         lodash.camelCase(key)
       )
       await trx('transactions').insert({
-        company_id: parseInt(req.body['company-id']),
+        company_id: parseInt(req.body['company_id']),
         inventory_id: inventory.id,
         weight: inventory.weight,
         cost: inventory.cost

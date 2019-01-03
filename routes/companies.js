@@ -91,7 +91,7 @@ router
   })
   .patch('/:id', (req, res) => {
     db.transaction(async trx => {
-      if (req.body['is-active']) {
+      if (req.body['is_active']) {
         await trx('companies')
           .update({
             is_active: false,
@@ -107,9 +107,9 @@ router
               name: req.body.name,
               address: req.body.address,
               phone: req.body.phone,
-              tax_code: req.body['tax-code'],
+              tax_code: req.body['tax_code'],
               avatar: req.body.avatar,
-              is_active: req.body['is-active'],
+              is_active: req.body['is_active'],
               updated_at: db.fn.now()
             },
             lodash.isUndefined
@@ -131,7 +131,7 @@ router
           name: req.body.name,
           address: req.body.address,
           phone: req.body.phone,
-          tax_code: req.body['tax-code'],
+          tax_code: req.body['tax_code'],
           avatar: req.body.avatar,
           is_active: false
         })
@@ -139,7 +139,7 @@ router
       const newCompany = lodash.mapKeys(cpRows[0], (value, key) =>
         lodash.camelCase(key)
       )
-      let prototypeId = parseInt(req.body['prototype-id'])
+      let prototypeId = parseInt(req.body['prototype_id'])
       if (prototypeId < 0 && req.body.locale === 'th') {
         prototypeId = -2
       }
@@ -159,7 +159,7 @@ router
       )
       const ctRows = await trx('contacts').where(
         'company_id',
-        parseInt(req.body['prototype-id'])
+        parseInt(req.body['prototype_id'])
       )
       if (ctRows.length > 0) {
         await trx('contacts').insert(

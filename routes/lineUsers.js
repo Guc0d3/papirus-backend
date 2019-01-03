@@ -30,8 +30,8 @@ router
       const rows = await trx('line_users')
         .update({
           name: req.body.name,
-          group_code: req.body['group-code'],
-          expired_at: req.body['expired-at'],
+          group_code: req.body['group_code'],
+          expired_at: req.body['expired_at'],
           updated_at: db.fn.now()
         })
         .where('id', parseInt(req.params.id))

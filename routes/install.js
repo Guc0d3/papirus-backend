@@ -5,28 +5,18 @@ const lineClient = require('../lineClient')
 const { accountings } = require('../installData')
 
 const router = express.Router()
-router
-  .get('/', async (req, res) => {
-    try {
-      process.stdout.write('install: ')
-      await install(req.query['line-admin-uid'])
-      res.sendStatus(200)
-      console.log('success')
-    } catch (err) {
-      res.sendStatus(500)
-      console.log('failure')
-      console.dir(err)
-    }
-  })
-  .post('/', async (req, res) => {
-    try {
-      await install(req.body['line-admin-uid'])
-      res.sendStatus(200)
-    } catch (err) {
-      res.sendStatus(500)
-      console.dir(err)
-    }
-  })
+router.get('/', async (req, res) => {
+  try {
+    process.stdout.write('install: ')
+    await install(req.query['line-admin-uid'])
+    res.sendStatus(200)
+    console.log('success')
+  } catch (err) {
+    res.sendStatus(500)
+    console.log('failure')
+    console.dir(err)
+  }
+})
 
 const createTable = async () => {
   const result = await db.transaction(async trx => {
