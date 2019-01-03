@@ -31,10 +31,13 @@ router
   })
   .get('/', async (req, res) => {
     try {
-      const dataRows = await db('companies').selectPagination(req.query)
-      const countRows = await db('companies').count('id as i')
-      res.setHeader('x-total-count', countRows[0].i)
-      res.status(200).json(dataRows)
+      let rows = await db('companies').count('id as i')
+      res.setHeader('x-total-count', rows[0].i)
+      rows = await db('companies').selectPagination(req.query)
+      const data = rows.map(row =>
+        lodash.mapKeys(row, (value, key) => lodash.camelCase(key))
+      )
+      res.status(200).json(data)
     } catch (err) {
       console.dir(err)
       res.sendStatus(500)
