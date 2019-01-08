@@ -15,7 +15,7 @@ const upload = Multer({
   storage: MulterS3({
     acl: 'public-read',
     bucket: process.env.AWS_S3_BUCKET_NAME,
-    // contentType: MulterS3.AUTO_CONTENT_TYPE,
+    contentType: MulterS3.AUTO_CONTENT_TYPE,
     s3,
     key: (req, file, cb) => {
       logger.debug(`file: ${JSON.stringify(file, null, 2)}`)
