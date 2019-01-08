@@ -111,7 +111,7 @@ router
               name: req.body.name,
               address: req.body.address,
               phone: req.body.phone,
-              tax_code: req.body['tax_code'],
+              tax_code: req.body.taxCode,
               avatar: req.body.avatar,
               is_active: req.body['is_active'],
               updated_at: db.fn.now()
@@ -140,7 +140,7 @@ router
           name: req.body.name,
           address: req.body.address,
           phone: req.body.phone,
-          tax_code: req.body['tax_code'],
+          tax_code: req.body.taxCode,
           avatar: req.body.avatar,
           is_active: !exist
         })
@@ -148,10 +148,13 @@ router
       const newCompany = lodash.mapKeys(cpRows[0], (value, key) =>
         lodash.camelCase(key)
       )
-      let prototypeId = parseInt(req.body['prototype_id'])
+      logger.debug(`newCompany: ${newCompany}`)
+      let prototypeId = req.body.prototypeId
+      logger.debug(`prototypeId: ${prototypeId} type: ${typeof prototypeId}`)
       if (prototypeId < 0 && req.body.locale === 'th') {
         prototypeId = -2
       }
+      logger.debug(`prototypeId: ${prototypeId}`)
       const acRows = await trx('accountings').where(
         'company_id',
         parseInt(prototypeId)
@@ -168,7 +171,7 @@ router
       )
       const ctRows = await trx('contacts').where(
         'company_id',
-        parseInt(req.body['prototype_id'])
+        parseInt(req.body.prototypeId)
       )
       if (ctRows.length > 0) {
         await trx('contacts').insert(
