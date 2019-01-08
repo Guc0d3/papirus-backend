@@ -13,7 +13,7 @@ const s3 = new AWS.S3({ apiVersion: '2006-03-01' })
 
 const upload = Multer({
   storage: MulterS3({
-    // acl: 'public-read',
+    acl: 'public-read',
     bucket: process.env.AWS_S3_BUCKET_NAME,
     // contentType: MulterS3.AUTO_CONTENT_TYPE,
     s3,
