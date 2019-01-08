@@ -14,14 +14,9 @@ const myTransports = {
 }
 
 const logger = createLogger({
-  format: combine(colorize(), timestamp(), myFormat),
+  format: combine(colorize(), myFormat),
   transports: [myTransports.console, myTransports.file],
   exitOnError: false
 })
 
 module.exports = logger
-module.exports.stream = {
-  write: function(message, encoding) {
-    logger.info(message)
-  }
-}
