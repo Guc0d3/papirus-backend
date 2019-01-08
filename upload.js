@@ -19,7 +19,14 @@ const upload = Multer({
     s3,
     key: (req, file, cb) => {
       logger.debug(`file: ${JSON.stringify(file, null, 2)}`)
-      cb(null, 'files/' + Date.now().toString() + '-' + file.originalname)
+      const random = 100 + Math.random() * (999 - 100)
+      const match = file.mimetype.match(/.*\/(.*)$/)
+      const ext = match[1]
+      // cb(null, 'files/' + Date.now().toString() + '-' + file.originalname)
+      const newFilename =
+        'files/' + Date.now().toString() + '-' + random + '.' + ext
+      logger.debug('newFilename: ' + newFilename)
+      cb(null, newFilename)
     }
   })
 })
