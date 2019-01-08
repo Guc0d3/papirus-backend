@@ -6,7 +6,10 @@ const myFormat = printf(info => {
 })
 
 const myTransports = {
-  console: new transports.Console({ level: process.env.LOG_LEVEL }),
+  console: new transports.Console({
+    level: process.env.LOG_LEVEL || 'info',
+    prettyPrint: true
+  }),
   file: new transports.File({
     filename: 'error.log',
     level: 'error'

@@ -128,12 +128,11 @@ router
     })
   })
   .post('/', (req, res) => {
-    logger.debug('POST /companies')
+    logger.log('debug', 'POST /companies')
     db.transaction(async trx => {
       const rows = await db('companies').count('id as i')
-      logger.debug(`rows: ${rows}`)
       const exist = parseInt(rows[0].i) > 0
-      logger.debug(`exist: ${exist}`)
+      logger.log('debug', 'count(companies): %s', rows[0].i)
       const cpRows = await trx('companies')
         .insert({
           code: req.body.code,
@@ -148,17 +147,14 @@ router
       const newCompany = lodash.mapKeys(cpRows[0], (value, key) =>
         lodash.camelCase(key)
       )
-      logger.debug(`newCompany: ${newCompany}`)
+      logger.log('debug', 'newCompany: %j', newCompany)
       let prototypeId = req.body.prototypeId
       logger.debug(`prototypeId: ${prototypeId} type: ${typeof prototypeId}`)
       if (prototypeId < 0 && req.body.locale === 'th') {
         prototypeId = -2
       }
-      logger.debug(`prototypeId: ${prototypeId}`)
-      const acRows = await trx('accountings').where(
-        'company_id',
-        parseInt(prototypeId)
-      )
+      logger.log('debug', 'prototypeId: %i', prototypeId)
+      const acRows = await trx('accountings').where('company_id', prototypeId)
       await trx('accountings').insert(
         acRows.map(row => {
           return {
@@ -171,7 +167,7 @@ router
       )
       const ctRows = await trx('contacts').where(
         'company_id',
-        parseInt(req.body.prototypeId)
+        req.body.prototypeId
       )
       if (ctRows.length > 0) {
         await trx('contacts').insert(
