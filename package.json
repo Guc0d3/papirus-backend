@@ -20,6 +20,7 @@
     "lodash": "^4.17.11",
     "messaging-api-line": "^0.7.9",
     "morgan": "^1.9.1",
+    "morgan-body": "^2.4.5",
     "multer": "^1.4.0",
     "multer-s3": "^2.7.0",
     "pg": "^7.5.0",
