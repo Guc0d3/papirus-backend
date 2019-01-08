@@ -3,6 +3,7 @@ require('dotenv').config()
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const express = require('express')
+const morgan = require('morgan')
 const routes = require('./routes')
 
 const app = express()
@@ -13,6 +14,7 @@ app.use(
 )
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(morgan('combined'))
 app.use('/', routes)
 
 const port = process.env.API_PORT || 3000
