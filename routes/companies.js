@@ -131,9 +131,9 @@ router
     logger.debug('POST /companies')
     db.transaction(async trx => {
       const rows = await db('companies').count('id as i')
-      logger.debug('rows:', rows)
+      logger.debug(`rows: ${rows}`)
       const exist = parseInt(rows[0].i) > 0
-      logger.debug('exist:', exist)
+      logger.debug(`exist: ${exist}`)
       const cpRows = await trx('companies')
         .insert({
           code: req.body.code,
