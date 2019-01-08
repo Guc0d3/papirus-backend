@@ -21,6 +21,7 @@ const upload = Multer({
       logger.debug(`file: ${JSON.stringify(file, null, 2)}`)
       const random = 100 + Math.random() * (999 - 100)
       const match = file.mimetype.match(/.*\/(.*)$/)
+      logger.debug(`match: ${match}`)
       const ext = match[1]
       // cb(null, 'files/' + Date.now().toString() + '-' + file.originalname)
       const newFilename =
