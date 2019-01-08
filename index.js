@@ -14,7 +14,7 @@ app.use(
 )
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
-app.use(morgan('combined'))
+app.use(morgan('tiny'))
 app.use('/', routes)
 
 const port = process.env.API_PORT || 3000
