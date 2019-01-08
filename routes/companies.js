@@ -147,7 +147,7 @@ router
       const newCompany = lodash.mapKeys(cpRows[0], (value, key) =>
         lodash.camelCase(key)
       )
-      logger.log('debug', `newCompany: ${JSON.stringify(newCompany)}`)
+      logger.log('debug', `newCompany: ${JSON.stringify(newCompany, null, 2)}`)
       let prototypeId = req.body.prototypeId
       if (prototypeId < 0 && req.body.locale === 'th') {
         prototypeId = -2
