@@ -129,8 +129,7 @@ router
   .post('/', (req, res) => {
     db.transaction(async trx => {
       const rows = await db('companies').count('id as i')
-      console.log('rows', rows)
-      const exist = rows[0].i > 0
+      const exist = parseInt(rows[0].i) > 0
       const cpRows = await trx('companies')
         .insert({
           code: req.body.code,
