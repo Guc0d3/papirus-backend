@@ -44,9 +44,9 @@ const myFormat = printf(info => {
   return `${info.timestamp} ${info.level}: ${info.message}`
 })
 
-const transports = {
-  console: new winston.transports.Console({ level: process.env.LOG_LEVEL }),
-  file: new winston.transports.File({
+const myTransports = {
+  console: new transports.Console({ level: process.env.LOG_LEVEL }),
+  file: new transports.File({
     filename: 'combined.log',
     level: 'error'
   })
@@ -54,7 +54,7 @@ const transports = {
 
 const logger = createLogger({
   format: combine(colorize(), timestamp(), myFormat),
-  transports: [transports.console, transports.file],
+  transports: [myTransports.console, myTransports.file],
   exitOnError: false
 })
 
