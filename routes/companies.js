@@ -128,6 +128,8 @@ router
   })
   .post('/', (req, res) => {
     db.transaction(async trx => {
+      const rows = await db('companies').count('id as i')
+      const exist = rows[0].i > 0
       const cpRows = await trx('companies')
         .insert({
           code: req.body.code,
@@ -136,7 +138,7 @@ router
           phone: req.body.phone,
           tax_code: req.body['tax_code'],
           avatar: req.body.avatar,
-          is_active: false
+          is_active: !exist
         })
         .returning('*')
       const newCompany = lodash.mapKeys(cpRows[0], (value, key) =>
