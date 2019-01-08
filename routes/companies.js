@@ -1,6 +1,7 @@
 const express = require('express')
 const lodash = require('lodash')
 const db = require('../db')
+const logger = require('../logger')
 
 const router = express.Router()
 
@@ -129,6 +130,8 @@ router
   .post('/', (req, res) => {
     db.transaction(async trx => {
       const rows = await db('companies').count('id as i')
+      logger.info('test winston log info')
+      logger.debug('test winston log debuf')
       const exist = parseInt(rows[0].i) > 0
       const cpRows = await trx('companies')
         .insert({
