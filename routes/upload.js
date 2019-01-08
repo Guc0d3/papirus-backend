@@ -17,7 +17,8 @@ const upload = Multer({
     contentType: MulterS3.AUTO_CONTENT_TYPE,
     s3,
     key: (req, file, cb) => {
-      cb(null, 'files/' + Date.now().toString() + '-' + file.originalname)
+      // cb(null, 'files/' + Date.now().toString() + '-' + file.originalname)
+      cb(null, Date.now().toString() + '-' + file.originalname)
     }
   })
 })
