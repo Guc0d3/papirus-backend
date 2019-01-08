@@ -8,7 +8,7 @@ const myFormat = printf(info => {
 const myTransports = {
   console: new transports.Console({ level: process.env.LOG_LEVEL }),
   file: new transports.File({
-    filename: 'combined.log',
+    filename: 'error.log',
     level: 'error'
   })
 }
