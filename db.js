@@ -1,15 +1,16 @@
 const KnexQueryBuilder = require('knex/lib/query/builder')
+const _ = require('lodash')
 
 KnexQueryBuilder.prototype.selectPagination = function({
   fields = '',
   page,
-  per_page = 20,
+  perPage = 20,
   sort
 }) {
   const fields_ = fields.split(',').map(field => field.trim())
-  const offset = page == null ? null : (page - 1) * per_page
-  const limit = page == null ? null : per_page
-  const sort_ = sort == null ? null : sort.replace('-', '')
+  const offset = page == null ? null : (page - 1) * perPage
+  const limit = page == null ? null : perPage
+  const sort_ = sort == null ? null : _.snakeCase(sort.replace('-', ''))
   const direction = sort == null ? null : sort[0] === '-' ? 'desc' : 'asc'
   if (fields_.length > 0) {
     this.select(...fields_)
