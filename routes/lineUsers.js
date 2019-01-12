@@ -28,6 +28,16 @@ router
       res.sendStatus(500)
     }
   })
+  .get('/:id', async (req, res) => {
+    try {
+      const rows = await db('line_users').where('id', parseInt(req.params.id))
+      const data = _.mapKeys(rows[0], (value, key) => _.camelCase(key))
+      res.status(200).json(data)
+    } catch (err) {
+      console.dir(err)
+      res.sendStatus(500)
+    }
+  })
   .patch('/:id', (req, res) => {
     db.transaction(async trx => {
       const rows = await trx('line_users')
