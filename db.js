@@ -1,5 +1,6 @@
 const KnexQueryBuilder = require('knex/lib/query/builder')
 const _ = require('lodash')
+const logger = require('./logger')
 
 KnexQueryBuilder.prototype.selectPagination = function({
   fields = '',
@@ -22,7 +23,12 @@ KnexQueryBuilder.prototype.selectPagination = function({
     this.limit(limit)
   }
   if (sort_ != null) {
-    if (sort_ === 'created_at') {
+    const timestampTypes = ['created_at', 'expired_at', 'updated_at']
+    logger.debug('sort_: ' + sort_)
+    logger.debug(
+      'timestampTypes.indexOf(sort_): ' + timestampTypes.indexOf(sort_)
+    )
+    if (timestampTypes.indexOf(sort_) > -1) {
       this.orderBy(sort_, direction)
     } else {
       this.orderByRaw(sort_ + ' COLLATE "th_TH" ' + direction)
