@@ -3,14 +3,14 @@ const lodash = require('lodash')
 const db = require('../db')
 const lineClient = require('../lineClient')
 const { accountings } = require('../installData')
+const logger = require('../logger')
 
 const router = express.Router()
 router.get('/', async (req, res) => {
   try {
-    process.stdout.write('install: ')
     await install(req.query['line-admin-uid'])
     res.sendStatus(200)
-    console.log('success')
+    logger.info('install: success')
   } catch (err) {
     res.sendStatus(500)
     console.log('failure')
@@ -76,7 +76,7 @@ const createTable = async () => {
       table.string('status_message')
       table.string('name')
       table.string('group_code', 1)
-      table.date('expired_at')
+      table.timestamp('expired_at')
       table.timestamps(true, true)
     })
     await trx.schema.createTable('transactions', table => {
@@ -89,6 +89,7 @@ const createTable = async () => {
     })
     return true
   })
+  logger.debug('createTable: ' + result.toString())
   return result
 }
 
@@ -103,6 +104,7 @@ const dropTable = async () => {
     await trx.schema.dropTableIfExists('transactions')
     return true
   })
+  logger.debug('dropTable: ' + result.toString())
   return result
 }
 
@@ -118,7 +120,7 @@ const insertData = async () => {
       results.push(await trx('accountings').insert(rows))
 
       let expiredAt = new Date()
-      expiredAt.setFullYear(expiredAt.getFullYear() + 100)
+      expiredAt.setFullYear(expiredAt.getFullYear() + 3)
 
       let profile = await lineClient.getUserProfile(
         process.env.LINE_ADMIN_UID_1
@@ -131,7 +133,7 @@ const insertData = async () => {
           status_message: profile.statusMessage,
           name: 'Administrator',
           group_code: 'a',
-          expired_at: expiredAt.toISOString().substr(0, 10)
+          expired_at: expiredAt.toISOString()
         })
       )
       profile = await lineClient.getUserProfile(process.env.LINE_ADMIN_UID_2)
@@ -143,7 +145,7 @@ const insertData = async () => {
           status_message: profile.statusMessage,
           name: 'Administrator',
           group_code: 'a',
-          expired_at: expiredAt.toISOString().substr(0, 10)
+          expired_at: expiredAt.toISOString()
         })
       )
 
@@ -152,6 +154,7 @@ const insertData = async () => {
     .catch(err => {
       throw err
     })
+  logger.debug('insertData: ' + JSON.stringify(results, null, 2))
   return results
 }
 
